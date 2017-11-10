@@ -1,4 +1,4 @@
-# pythonHelloword：
+# python：
 
 常量/变量
         常量： 一旦赋值，就不可再改变换句话说，就是不能对它重新赋值。Python不存在常量
