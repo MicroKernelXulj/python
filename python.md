@@ -374,6 +374,82 @@
                                             s = 'i very very love python'
                                             s.replace('very', 'not') # 有多少个替换多少个
                                             s.replace('very', 'not', 1) # 可选的count参数，指定替换多少次
+            ###集合###
+                    元素是唯一的 元素是无序的
+                            s = {} # 不能这么定义空集合
+                            s = set(1,2,3)  或者   s = {1,2,3}
+
+                            1：增加集合元素
+                                    add
+                                    s.add(4)   给具体的值
+                                    当add一个已经存在的元素时， 不会发生任何改变
+                                    update
+                                    s.update([3,4,5,6])
+
+                                    list set bytearray dict 是不可hash的，所以不能作为set的元素，通常来说，内置类型，
+                                                            不可变类型是可hash的，可变类型是不可hash的
+
+                                    a = bytearray(3)
+
+                            2：删除
+                                    remove
+                                    discard
+                                    pop
+                                    clear
+
+                                    s = {1,2,3,4}
+                                    s.remove(2)    删除具体的值
+                                    s.discard(2)
+                                    remove 删除不存在的元素会抛出KeyError， discard删除不存在的元素不会发生任何事情
+
+                                    pop返回的元素是无序的 空集合pop的时，抛出KeyError异常
+
+                                    修改和查找
+                                    没有一个方法可以直接的修改集合中的某个具体元素
+                                    因为没有一个方法，可以定位其中某个具体元素
+                                    for x in set('magedu'): # 集合是可迭代对象
+                                        print(x)
+                                        'm' in set('magedu')  # 集合可以用成员运算法  线性结构的成员运算，时间复杂度是 O(n) 集合的成员运算，时间复杂度是O(1)
+                                        O(1)
+                                        常数复杂度
+                                        O(logn)
+                                        对数复杂度
+                                        O(n)
+                                        线性复杂度
+                                        O(n ^ 2)
+                                        平方复杂度
+                                        O(n ^ 3)
+                                        O(2 ^ n)
+                                        指数复杂度
+                                        O(n!) 阶乘复杂度
+
+                            3：集合的集合运算
+                                    union
+                                    intersection
+                                    difference
+                                    symmetric_difference
+
+                                    a = {1, 2, 3}
+                                    b = {2, 3, 4}
+                                    a.union(b) # 并集   --->   {1, 2, 3, 4}
+                                    a.intersection(b) # 交集   --->   {2, 3}   --- a & b
+                                    a.difference(b) # 差集   --->   {1}  --->   a - b
+                                    b.difference(a) # 差集   --->   {4}  --->   b - a
+                                    a.symmetric_difference(b) # 对称差集   --->   {1,4}
+
+                                    a.intersection_update(b)   --->   a   {2,3}
+                                    没有 union_update
+                                    update版本的集合运算 原地修改集合，返回值为None
+
+                                    a.issuperset(b)    --->   true       超集
+                                    b.issubset(a)   --->   true   子集
+
+                                    isdisjoint 判断两个集合是否不相交
+
+                                    a.isdisjoint(b)   --->  False
+                                    a.isdisjoint({5, 6})   --->   True
+                                    元素需要唯一而对顺序没有需求
+                                    我们需要集合运算时
             ###字典的使用###
                     ###创建和使用字典###
                             d={key1:value1,key2:value2}
@@ -786,6 +862,234 @@
                                                     else:
                                                         print("error")
 
+                            ###迭代器###
+                                    可迭代对象：列表、元组、集合、字典、字符串、bytes、bytearray和生成器 都是可迭代对象
+                                    可迭代对象可用于for in表达式, 可以使用成员运算符(in 和not in)
+
+                                    iter 函数把一个可迭代对象、封装成迭代器
+                                    r = range(10)
+                                    it = iter(r)
+                                    迭代器是一种封装
+                                    for in 隐式的调用了iter 成员运算符也隐式的调用了iter函数
+                                     当迭代器没有下一个元素的时候，next函数会抛出StopIteration异常
+                                    next(it, 3)
+                                    当有默认值的时候返回默认值
+                                    生成器对象同时也是迭代器
+
+                                            it = iter(lst)
+                                            it = iter(lst)
+                                            lst = [
+                                                ['温度', 28, 29, 32, 35, 30, 29, 27],
+                                                ['湿度', 30, 35, 45, 50, 39, 35, 30]
+                                            ]
+                                            for seq in lst:
+                                                it = iter(seq)
+                                                name = next(it)
+                                                print(name)
+                                                for x in it:
+                                                    print(x)
+
+                                     可迭代对象
+                                     迭代器
+                                     iter 函数把可迭代对象转化为迭代器
+                                     next函数从迭代器里取出元素  迭代器是一类对象
+
+
+
+                    ###解析式###
+
+
+                            ###生成器解析###
+                                    生成器解析能做的列表解析都能做，但数据量较大是列表解析比较耗内存
+                                    对列表解析来说，只需要简单的把中括号换成小括号就可以了
+                                    生成器解析式是按需计算的或者说延迟计算的或者叫惰性求值
+
+                                            [inc(x) for x in range(10)]
+                                            g = (inc(x) for x in range(10))
+                                            next(g)
+                                    生成器是一个返回迭代器的函数，只能用于迭代操作，更简单点理解生成器就是一个迭代器。
+                                    在调用生成器运行的过程中，每次遇到 yield 时函数会暂停并保存当前所有的运行信息，返回yield的值。
+                                    并在下一次执行 next()方法时从当前位置继续运行。
+                                            def gen():
+                                               yield 0
+                                               g = gen()
+                                               type(g)
+                                               next(g)
+
+                                            def gen():
+                                                while True:
+                                                    yield 0
+                                                    print('.....')
+                                    生成器的定义和函数类似，但是有yield语句
+                                    生成执行到yield的时候会暂停， 在此next会从暂停的地方继续执行
+
+                                            def gen(x):
+                                                for i in range(x):
+                                                    yield x
+                                            g = gen(10)
+                                            for x in g:
+                                                print(x)
+
+                                    yield 弹出值，暂停函数
+                                    return返回值， 并且结束函数
+
+                                            def gen(x):
+                                                for i in range(10):
+                                                    if i == 3:
+                                                        return i
+                                                    yield i
+                                            g = gen(10)
+                                            for x in g:
+                                                print(x)
+                                    当yield和return同时存在时， return的返回值会被忽略，但是return依然可以中断生成器
+                                            def gen(x): # 生成器函数  返回值是一个生成器
+                                                for i in range(x):
+                                                    yield i
+                                                return 'ok'
+                                            for x in gen(10):
+                                                print(x)
+                                    协程是用户空间的轻量线程， 跑在一个线程内，由用户空间调度
+                                            def gen1():
+                                                while True:
+                                                    yield 'gen 1'
+
+                                            def gen2(g):
+                                                for x in range(10):
+                                                    yield 'gen 2'
+                                                    print(next(g))
+                                            g = gen2(gen1())
+                                            next(g)
+
+                                            def g(n):
+                                                def factorial():
+                                                    ret = 1
+                                                    idx = 1
+                                                    while True:
+                                                        yield ret
+                                                        idx += 1
+                                                        ret *= idx
+                                                gen = factorial()
+                                                for _ in range(n-1):
+                                                    next(gen)
+                                                return next(gen)
+
+                                        使用生成器来替换递归
+                                        所有的递归，都可以用生成器替换
+                                        生成器可以用来做缓存，会保存线程状态信息
+                                            def cache(x):
+                                                ret = x + 1
+                                                idx = 0
+                                                while True:
+                                                    yield ret
+                                                    idx += 1
+                                                    if idx > 5:
+                                                        ret = x+1
+                                                        idx = 0
+                                    py2:
+                                            def gen(lst):
+                                                for x in lst:
+                                                    yield x
+
+                                    py3:
+                                            def gen(lst):
+                                                yield from lst  # => for x in lst: yield x
+                                            g = gen(range(10))
+                                            for x in g:
+                                                print(x)
+                                    个人经典生成器例子:
+
+                                            def aa(a):
+                                                for i in range(a):  ###print函数无法返回函数值
+                                                    print(i)
+
+                                            def aa(a):
+                                                bb=[]
+                                                for i in range(a):
+                                                    bb.append(i)
+                                                return bb       ##使用return函数返回函数值
+                                            for j in aa(6):
+                                                print(j)
+                                            此时，函数在运行中占用的内存会随着参数a的增大而增大，如果要控制内存占用，最好不要用 List
+
+                                            def aa(a):
+                                                for i in range(a):
+                                                    yield i
+                                            for j in aa(6):
+                                                print(j)
+                                            gg=aa(6)
+                                            next(gg)
+                                            此时，使用yield语句来控制内存大小
+                                    在一个 generator function 中，如果没有 return，则默认执行至函数完毕，
+                                    如果在执行过程中 return，则直接抛出 StopIteration 终止迭代。
+                            ###yeild from###
+                                    允许生成器将其部分操作委托给另一个生成器。这允许将包含的代码段分解并放置在另一个生成器中。
+                                    此外，允许子生成器返回一个值，并将该值提供给委托生成器
+                                            def g(x):
+                                                yield from range(x)
+                                    但是，与普通循环不同的是，允许子生成器直接从调用范围接收发送和抛出的值，并将最终值返回给外部生成器
+
+
+
+
+                            ###列表解析### 快速高效生成列表方法
+                                    代码变短，可读性强,解析式速度更快
+
+                                    plus_one = []
+                                        for x in range(10):
+                                            plus_one.append(x+1)
+
+                                    x+1 for x in range(10)
+
+                                    列表解析的一般形式
+                                    [expr for item in itratorable]
+                                    x+1 for x in range(10)
+                                    列表解析返回的是列表， 列表的内容是表达式执行的结果
+
+                                    [x for x in range(10) if x % 2 == 0]
+                                    [x for x in range(10) if x % 2 == 0 if x > 1]
+                                    [x for x in lst if len(x) > 1 and x.pop(0) % 2 == 0]
+                                    [(x, y) for x in range(10) for y in range(10)]
+
+
+                                    [x for x in range(2) for x in range(3)]
+                                    [{x+1:x+2} for x in range(5)]
+                                    [(x+1, x+2) for x in range(5)]
+                                    列表解析用于对可迭代对象做过滤和转换，返回值是列表
+                            ###集合解析###
+                                    {x for x in range(10)}
+                                    集合解析把列表解析的中括号变成大括号，返回集合
+                                    type({x for x in range(10)})
+                                    type([x for x in range(10)])
+
+                            ###字典解析###
+                                    {str(x):x for x in range(10)}
+                                    字典解析也是使用大括号包围，并且需要两个表达式，一个生成key，
+                                        一个生成value 两个表达式之间使用冒号分割，返回结果是字典
+                                    {str(x):y for x in range(3) for y in range(4)}
+
+                                            ret = {}
+                                            for x in range(3):
+                                                for y in range(4):
+                                                    ret[str(x)] = y
+
+                                     为什么没有元组解析？
+                                     元组和列表的操作几乎是一样的，除了不可变
+                                            tuple([x for x in range(10)])
+                                            list(zip(range(10), range(10)))
+                                            {x:y for x, y in zip(range(10), range(10))}
+                                            list(zip(range(5), range(10), range(20)))
+
+                                    zip 函数用于合并多个可迭代对象，合并后的长度等于最短的可迭代对象的长度
+                                            def r():
+                                                for x in range(10):
+                                                    pass
+
+                                            from dis import dis
+                                            dis(r)
+
+
+
+
             ###函数###
                     函数是Python里组织代码的最小单元
                     语句：可运行的一个代码单元
@@ -1012,7 +1316,882 @@
                             ###高阶函数###
                                     一个函数就可以接收另一个函数作为参数，这种函数就称之为高阶函数。
                                             def fun1(*args):
-                                                
+                                                def fun2():
+                                                    ax=0
+                                                    for n in args:
+                                                        ax+=n
+                                                    return ax
+                                                return fun2
+                                            此时该函数返回一直计算值，若不想直接返回值，而是返回一个函数
+                                                后面需要的时候在调用函数来计算值
+                                            在此例中，fun1函数中又定义了fun2函数，并且内部函数fun2可以引用
+                                                外部函数fun1的参数和局部变量，当fun1返回fun2时，相关参数
+                                                和变量都保存在返回的函数中，称为闭包。fun1每次调用都会返回
+                                                一个新的函数，即使传入相同的参数
+                                    ###闭包###
+                                            如果在一个内部函数里对外部函数(不是在全局作用域)的变量进行引用，
+                                            内部函数就称为闭包
+                                                def count():
+                                                    def f(j):
+                                                        def g():
+                                                            return j*j
+                                                        return g
+                                                    fs=[]
+                                                    for i in range(1,4):
+                                                        fs.append(f(i))
+                                                        return fs
+
+                                    def counter(i):
+                                                base = i
+                                                def inc(x=1):
+                                                    nonlocal base
+                                                    base += x
+                                                    return base
+                                                return inc
+
+                                    返回函数或者参数是函数的函数 -- 高阶函数
+                                    因为Python中函数是一等对象(first class)
+                                    函数也是对象，并且它可以像普通对象一样赋值，作为参数，作为返回值
+                                    函数作为返回值： 通常是用于闭包的场景， 需要封装一些变量
+                                    函数作为参数：通常用于大多数逻辑固定，少部分逻辑不固定的场景
+
+                                            import datetime
+                                            def logger(fn): # 函数作为返回值： 封装了fn
+                                                def wrap(*args, **kwargs):
+                                                    start = datetime.datetime.now()
+                                                    ret = fn(*args, **kwargs)
+                                                    end = datetime.datetime.now()
+                                                    print('call {} took {}'.format(fn.__name__, end-start))
+                                                    return ret
+                                                return wrap
+
+                                            def add(x, y):
+                                                return x + y
+
+                                            loged_add = logger(add)
+
+                                            loged_add(3, y=5)
+                                    函数作为参数，返回值也是函数： 通常用于作为参数函数执行前后需要一些额外操作
+
+                                    装饰器例子：实现函数执行时间展示
+                                                语法糖：指计算机语言中添加的某种语法，这种语法对语言的功能并没有影响，但是更方便程序员使用
+                                    例子1：直接吧代码写在时间函数里面执行
+                                            import time
+                                            def foo():
+                                                start = time.clock()
+                                                [(x,y) for x in range(3000) for y in range(6000,9000)]
+                                                end = time.clock()
+                                                print('used',end - start)
+                                            foo()
+
+
+
+                                    例子2：在时间函数里面调用需要执行的函数
+                                            import time
+                                            def foo():
+                                                [(x,y) for x in range(3000) for y in range(6000,9000)]
+                                            def timeit(func):
+                                                start = time.clock()
+                                                func()
+                                                end = time.clock()
+                                                print('used',end - start)
+                                            timeit(foo)         ###返回的是一个值
+                                            这样的话，如果foo在N处都被调用了，你就不得不去修改这N处的代码。或者更极端的，
+                                            考虑其中某处调用的代码无法修改这个情况，比如：这个函数是你交给别人使用的。
+
+                                    例子3：赋予新函数的名字
+                                            import time
+                                            def timeit(func):
+                                                def warpper():
+                                                    start = time.clock()
+                                                    func()
+                                                    end = time.clock()
+                                                    print('used',end - start)
+                                                return warpper
+                                            def foo():
+                                                [(x,y) for x in range(3000) for y in range(6000,9000)]
+                                            foo = timeit(foo)       ###返回的是一个函数
+                                            foo()
+
+                                    例子4：
+                                            import time
+                                            def timeit(func):   ###要传入的函数
+                                                def warpper():  ###要传入的函数的参数
+                                                    start = time.clock()
+                                                    func()
+                                                    end = time.clock()
+                                                    print('used',end - start)
+                                                return warpper
+                                            @timeit     ##这样写，就不用在多个需要执行函数判断其执行时间的前面加上那么一段代码了
+                                            def foo():
+                                                [(x,y) for x in range(3000) for y in range(6000,9000)]
+                                            foo()
+                                            生成器下面所定义的函数是需要将其传入到生成器函数里面执行的
+                                            因为foo函数没有参数，所以只需要在timeit函数里面定义参数接受foo这个函数即可，
+                                            若需要给foo函数添加参数，则需要在warpper里面也定义参数来接受foo的参数
+                                    例子5：
+
+                                            import datetime
+
+                                            def logger(fn): # 函数作为返回值： 封装了fn
+                                                def wrap(*args, **kwargs):
+                                                    start = datetime.datetime.now()
+                                                    ret = fn(*args, **kwargs)
+                                                    end = datetime.datetime.now()
+                                                    print('call {} took {}'.format(fn.__name__, end-start))
+                                                    return ret
+                                                return wrap
+                                            def add(x, y):
+                                                return x + y
+                                            loged_add = logger(add)
+                                            loged_add(3, y=5)
+                                            函数作为参数，返回值也是函数： 通常用于作为参数函数执行前后需要一些额外操作
+
+                                    例子6：
+                                            import time
+                                            def sleep(x):
+                                                time.sleep(x)
+                                            logged_sleep = logger(sleep)
+                                            logged_sleep(3)
+                                            sleep = logger(sleep)
+                                            sleep(3)
+                                            @logger
+                                            def sleep(x):
+                                                time.sleep(x)
+                                            sleep(3)
+                            ###装饰器###
+                                    参数是一个函数， 返回值是一个函数的函数，就可以作为装饰器
+                                            import datetime
+                                            def logger(fn): # 函数作为返回值： 封装了fn
+                                                def wrap(*args, **kwargs):
+                                                    start = datetime.datetime.now()
+                                                    ret = fn(*args, **kwargs)
+                                                    end = datetime.datetime.now()
+                                                    print('call {} took {}'.format(fn.__name__, end-start))
+                                                    return ret
+                                                wrap.__name__ = fn.__name__
+                                                wrap.__doc__ = fn.__doc__
+                                                return wrap
+
+                                            @logger
+                                            def sleep(x):
+                                                time.sleep(x)
+
+                                            def copy_proprities(src, dst):
+                                                dst.__name__ =  src.__name__
+                                                dst.__doc__ = src.__doc__
+
+                                            import datetime
+
+                                            def logger(fn): # 函数作为返回值： 封装了fn
+                                                def wrap(*args, **kwargs):
+                                                    start = datetime.datetime.now()
+                                                    ret = fn(*args, **kwargs)
+                                                    end = datetime.datetime.now()
+                                                    print('call {} took {}'.format(fn.__name__, end-start))
+                                                    return ret
+                                                copy_proprities(fn, wrap)
+                                                return wrap
+
+                                            def copy_proprities(src):
+                                                def _copy(dst):
+                                                    dst.__name__ =  src.__name__
+                                                    dst.__doc__ = src.__doc__
+                                                    return dst
+                                                return _copy
+
+                                            import datetime
+
+                                            def logger(fn): # 函数作为返回值： 封装了fn
+                                                @copy_proprities(fn)
+                                                def wrap(*args, **kwargs):
+                                                    start = datetime.datetime.now()
+                                                    ret = fn(*args, **kwargs)
+                                                    end = datetime.datetime.now()
+                                                    print('call {} took {}'.format(fn.__name__, end-start))
+                                                    return ret
+                                                return wrap
+
+                                            @logger
+                                            def sleep(x):
+                                                time.sleep(x)
+
+                            ###柯里化###
+                                            import functools
+                                            import datetime
+                                            def logger(fn): # 函数作为返回值： 封装了fn
+                                                @functools.wraps(fn)
+                                                def wrap(*args, **kwargs):
+                                                    start = datetime.datetime.now()
+                                                    ret = fn(*args, **kwargs)
+                                                    end = datetime.datetime.now()
+                                                    print('call {} took {}'.format(fn.__name__, end-start))
+                                                    return ret
+                                                return wrap
+
+                                            @logger
+                                            def sleep(x):
+                                                time.sleep(x)
+
+                                            def logger(s):
+                                                def _logger(fn):
+                                                    @functools.wraps(fn)
+                                                    def wrap(*args, **kwargs):
+                                                        start = datetime.datetime.now()
+                                                        ret = fn(*args, **kwargs)
+                                                        end = datetime.datetime.now(ii)
+                                                        if (end-start).total_seconds() > s:
+                                                            print('call {} took {}'.format(fn.__name__, end-start))
+                                                        return ret
+                                                    return wrap
+                                                return _logger
+                                            @logger(2)
+                                            def sleep(x):
+                                                time.sleep(x)
+                                            sleep(3)
+                                    带参数的装饰器： 一个函数， 返回一个不带参数的装饰器
+
+                                            def logger(s, p=lambda name, t: print('call {} took {}'.format(name, t))):
+
+                                                def _logger(fn):
+
+                                                    @functools.wraps(fn)
+                                                    def wrap(*args, **kwargs):
+
+                                                        start = datetime.datetime.now()
+                                                        ret = fn(*args, **kwargs)
+                                                        end = datetime.datetime.now()
+                                                        if (end-start).total_seconds() > s:
+                                                            p(fn.__name__, end-start)
+                                                        return ret
+                                                    return wrap
+                                                return _logger
+
+
+                                            @logger(2, p=lambda name, t: None)
+                                            def sleep(x):
+                                                time.sleep(x)
+
+                                            def logger(s):
+                                                def _logger(p=lambda name, t: print('call {} took {}'.format(name, t))):
+                                                    def __logger(fn):
+                                                        @functools.wraps(fn)
+                                                        def wrap(*args, **kwargs):
+                                                            start = datetime.datetime.now()
+                                                            ret = fn(*args, **kwargs)
+                                                            end = datetime.datetime.now()
+                                                            if (end-start).total_seconds() > s:
+                                                                p(fn.__name__, end-start)
+                                                            return ret
+                                                        return wrap
+                                                    return __logger
+                                                return _logger
+                                            logger2s = logger(2)
+                                            @logger2s()
+                                            def sleep(x):
+                                                time.sleep(x)
+                                            sleep(3)
+                                            sleep(1)
+                                            sleep = logger2s()(sleep)
+
+
+
+                                    装饰器个人经典例子：
+                                    例子1：
+                                            实现在打印11前还要打印ee
+                                            def aa():
+                                                print(11)
+                                            def aa():
+                                                print("ee")
+                                                print(11)
+                                            aa()
+
+                                            修改了原函数
+
+                                    例子2：
+                                            def aa():
+                                                print(11)
+
+                                            def cc(args):
+                                                def bb():
+                                                    print("ee")
+                                                    args()
+                                                return bb
+
+                                            @cc
+                                            def aa():
+                                                print(11)
+                                            aa()
+
+                                    例子3：
+                                            参数：
+                                            def auth_arg(func):
+                                                def inner(arg):
+                                                    print('ok')
+                                                    func(arg)
+                                                return inner
+
+                                            @auth_arg
+                                            def aa(pp):
+                                                print(pp)
+
+                                            aa("dd")
+
+                                    例子4：
+                                            可变参数：
+                                            def auth_arg(func):
+                                                def inner(*arg,**args):
+                                                    print('ok')
+                                                    func(*arg,**args)
+                                                return inner
+
+                                            @auth_arg
+                                            def aa(*pp,**ppp):
+                                                print(pp,ppp)
+
+                                            aa(8,99999,i=99)
+                                    例子5：
+                                            def user2(us2):
+                                                def user3(us3):
+                                                    if us2(us3) == 1:
+                                                        print("Loging ok")
+                                                    else:
+                                                        print("Loging error")
+                                                return user3
+                                            @user2
+                                            def user1(us1):
+                                                if us1 == "joey":
+                                                    return 1
+                                                else:
+                                                    return 0
+                                    
+                                    ###递归函数###
+                                            如果一个函数在内部调用了自己，则函数就叫递归函数
+                                            def g(n):
+                                                if n == 0:
+                                                    return 1
+                                                if n == 1:
+                                                    return 1
+                                                return n * g(n-1)
+
+                                            递归函数总是涉及到压栈和出栈的过程
+                                            递归函数总是压栈，知道遇到退出条件，然后出栈
+
+                                                Python中递归函数有深度限制，可以通过
+                                                sys.getrecursionlimit()
+                                            得到深度限制，可以通过sys.setrecursionlimit调整递归深度限制
+                                            递归函数在Python非常慢，并且有深度限制，所以 因尽量避免使用递归
+                                            循环都可以转化为递归，但不是所有递归都可以转化为循环
+
+                                                def g(n):
+                                                    ret = 1
+                                                    for x in range(1, n + 1):
+                                                        ret *= x
+                                                    return ret
+                                                Python可以完全不使用递归
+                                                    mport functools
+                                                    functools.wraps
+                                                    functools.partial
+                                                    def add(x, y):
+                                                        return x + y
+                                                    add(3, 5)
+                                                    new_add = functools.partial(add, y=3)
+                                                    new_add(5, y=5)
+                                                    partial 函数用于固定函数中一个或者若干个参数
+                                                    函数作为参数， 对这个作为参数的函数的参数列表是有限制的
+                                                    def cmp(a, b, r):
+                                                        if r:
+                                                            return a < b
+                                                        return a > b
+                                                    sort(range(4), functools.partial(cmp, r=True))
+                                                    functools.partial(add, x=5)(y=4)
+
+                                                    functools.lru_cache
+                                                    import datetime
+
+                                                    def logger(fn): # 函数作为返回值： 封装了fn
+                                                        @functools.wraps(fn)
+                                                        def wrap(*args, **kwargs):
+                                                            start = datetime.datetime.now()
+                                                            ret = fn(*args, **kwargs)
+                                                            end = datetime.datetime.now()
+                                                            print('call {} took {}'.format(fn.__name__, end-start))
+                                                            return ret
+                                                        return wrap
+                                                    import time
+                                                    @logger
+                                                    @functools.lru_cache(3)
+                                                    def sleep(x):
+                                                        time.sleep(x)
+                                                        return x
+                                                    sleep(3)
+                            ###匿名函数###
+                                            lambda params : expr
+                                    只能写在一行上
+                                    表达式的结构就是返回值
+                                    python 使用 lambda 来创建匿名函数
+                                    lambda的主体是一个表达式，而不是一个代码块。仅仅能在lambda表达式中封装有限的逻辑进去
+                                    lambda函数拥有自己的命名空间，且不能访问自有参数列表之外或全局命名空间里的参数
+                                            lambda [arg1 [,arg2,.....argn]]:expression
+                                    # 可写函数说明
+                                            sum = lambda arg1, arg2: arg1 + arg2;
+                                            sum( 10, 20 )
+
+                                    默认参数：
+                                            add = lambda x, y=1: x+ y
+                                    可变参数：
+                                            f = lambda *x: x
+                                    可变关键字参数：
+                                            f = lambda **kw: kw
+                                    参数槽：
+                                            f = lambda x, *, y: x+ y
+
+                                    匿名函数通常和高阶函数配合使用，作为参数传入、或者作为返回值返匿名函数最好不要定义成递归函数
+                            ###参数槽###
+                                    参数槽
+                                    def fn(a, b, c):
+                                        print(a, b, c)
+                                    fn(1, 2, 3)
+                                    fn(a=1, b=2, c=3)
+
+                                    def fn(*, a, b, c):
+                                        print(a, b, c)
+                                    fn(1, 2, 3)
+                                    以上传参会报错
+                                    fn(a=1, b=2, c=3)
+                                    *之后的参数，必须以关键字参数的形式传递，称之为参数槽
+
+                                    def fn(a, b, *, c):    //整个函数称之为参数槽，*号后面的称之为命名参数，前面的称之为关键字参数
+                                        print(a, b, c)
+                                    fn(1, 2, c=3)
+                                    fn(a=1, b=2, c=3)
+
+                                    参数槽通常和默认参数搭配使用
+
+                                    ef fn(a, b, *):
+                                        print(a, b)
+                                    以上会报错
+                                    *之后必须有参数
+
+                                    def fn(a, b, *, c=1):
+                                        print(a, b, c)
+                                    fn(1, 2)
+                                    fn(1, 2, c=3)
+                                    命名参数可以有默认值
+                                    def fn(a, b=1, *, c=2):
+                                        print(a, b, c)
+                                    fn(0)
+                                    fn(0, c=3)
+                                    非命名参数有默认值时，命名参数可以没有默认值
+                                    默认参数应该在每段参数的最后
+
+                                    def fn(a, *args, *, c):
+                                        print(a)
+                                        print(args)
+                                        print(c)
+                                    报错
+                                    def fn(a, *, **kwargs):
+                                        print(a)
+                                        print(kwargs)
+                                    报错
+                                    def fn(a, **kwargs, *, c):
+                                        print(a)
+                                        print(kwargs)
+                                        print(c)
+                                    报错
+                                    使用参数槽时， 不能使用可变位置参数，可变关键字参数，必须放在命名参数之后
+                                    def fn(a, *, c, **kwargs):
+                                        print(a, c)
+                                        print(kwargs)
+                                    fn(1, c=2, b=3, d=4)
+
+                                    def fn(a, *, c, *args, **kwargs):
+                                        print(a)
+                                        print(c)
+                                        print(args)
+                                        print(kwargs)
+                                    报错
+                                    def fn(a, *args, c, **kwargs):
+                                        print(a)
+                                        print(args)
+                                        print(c)
+                                        print(kwargs)
+                                    fn(0, 1, 2, 3, c=4, d=5)
+                                    类型示意 Python 3.5才有
+                                    def add(x:int, y:int) -> int:
+                                        return x+y
+                                    add(1, 2)
+                                    类型示意没有任何类型检查，仅仅只是一个示意而已
+                                    Python是一种自文档的语言
+                                    def add(x, y):
+                                        '''
+                                        @param x int
+                                        @param y int
+                                        @return int
+                                        '''
+                                        return x+y
+                                        更清晰的自文档
+                                        帮助IDE做检查
+                                        可以通过这种机制，做类型检查
+
+                            ###偏函数###
+                                    Python的functools模块提供了很多有用的功能，其中一个就是偏函数（Partial function）
+                                    通过设定参数的默认值，可以降低函数调用的难度。而偏函数也可以做到这一点。举例如下：
+                                    int()函数可以把字符串转换为整数，当仅传入字符串时，int()函数默认按十进制转换：
+
+                                    int('12345')
+                                    12345
+                                    但int()函数还提供额外的base参数，默认值为10。如果传入base参数，就可以做N进制的转换：
+
+                                    >>> int('12345', base=8)
+                                    5349
+                                    >>> int('12345', 16)
+                                    74565
+
+                                    functools.partial就是帮助我们创建一个偏函数的，不需要我们自己定义int2()，
+                                            可以直接使用下面的代码创建一个新的函数int2：
+
+                                    >>> import functools
+                                    >>> int2 = functools.partial(int, base=2)
+                                    >>> int2('1000000')
+                                    64
+                                    >>> int2('1010101')
+                                    85
+                                    简单总结functools.partial的作用就是，把一个函数的某些参数给固定住（也就是设置默认值），
+                                        返回一个新的函数，调用这个新函数会更简单。
+
+                                    当函数的参数个数太多，需要简化时，使用functools.partial可以创建一个新的函数，
+                                        这个新函数可以固定住原函数的部分参数，从而在调用时更简单。
+                                    个人经典例子：
+                                        1：
+                                            def aa(a,b):
+                                                return a+b
+                                            aa(2,3)
+                                        2：
+                                            from functools import partial
+                                            def cc(d,e):
+                                                return d+e
+                                            dd=partial(cc,4)
+                                           dd(8)
+
+                    ###面向对象###
+                                    面向对象(OOP)是一种程序设计思想，OOP把对象作为程序的基本语言
+                                            一个对象包含数据和操作数据的函数
+                                    面向对象程序设计吧计算机程序视为一组对象的集合，每个对象都可以接受其他对象发来的消息
+                                    并处理这些消息。在Python中，所有数据类型都被视为对象，也可以自定义对象。
+                                    自定义对象数据类型就是面向对象中类的概念
+                            ###面向对象术语简介：
+                                    类： 用来描述具有相同属性和方法的对象的集合。类定义了集合中每个对象共有的属性
+                                        和方法。对象是类的实例
+                                    类变量(属性)：类变量在整个实例化的对象中是公用的。类变量定义在类中
+                                                且在方法之外。类变量通常不作为实例变量的使用。类变量也称作属性
+                                    数据成员：类变量或实例变量用于处理类及其实例对象的相关数据
+                                    方法重写：如果从父类继承的方法不能满足子类的需求，就可以对其改写，这个过程
+                                             称为方法覆盖，也成为方法重写
+                                    实例变量：定义在方法中的变量只作用于当前实例的类
+                                    多态：对不用类的对象使用同样的操作
+                                    封装：对外部世界隐藏对象的工作细节
+                                    继承：即一个派生类继承基类的字段和方法。继承允许吧一个派生类的对象作为
+                                         一个基类对象对待，以普通类为基础建立专门的类对象
+                                    实例化：创建一个类的实例，累的具体对象
+                                    方法：类中定义的函数
+                                    对象：通过类定义的数据解构实例。对象包括两个数据成员(类变量和实例变量)和方法
+                            Python中的类提供了面向对象编程的所有基本方法：
+                                    类的继承机制允许多个基类，派生类可以覆盖基类中的任何方法，方法中可以调用基类中的同名方法
+                                    对象可以包含任意数量和类型的数据
+                            ###类的定义与使用##
+                                    实例代码：
+                                            class Myclass(object):
+                                                i=123
+                                                def f(self):
+                                                    return 'hello,word'
+                                    格式：
+                                            class ClassName(object):
+                                                <statement-1>
+                                                .
+                                                .
+                                                <statement-N>
+
+                                            Python使用class关键字，class后面紧接着类名，类名通常首字母大写
+                                                    紧接着是(boject)，表示该类是从哪个类继承下来的。
+                                                    通常，如果没有合适的继承类，就是用object类，这是所有类
+                                                    都会继承的类。类包含属性（相当于函数中的语句）和方法（类中
+                                                    的方法大体可以理解成函数）
+                                            在类中定义方法的形式和函数差不多，但不称为函数，而称为方法
+                                                    方法的调用要绑定到特定对象上，而函数不需要
+                                    ###类的使用###
+                                                    class Myclass(object):
+                                                        i=123
+                                                        def f(self):
+                                                            return 'hello,word'
+                                                    use_class = Myclass()
+                                                    print('调用类的属性:',use_class.i)
+                                                    print('调用类的方法:',use_class.f())
+
+                                                    调用类的属性: 123
+                                                    调用类的方法: hello,word
+                                            调用类时需要执行以下操作：
+                                                        use_class=Myclass()
+                                                    这一步叫类的实例化，即创建一个类的实例，此处
+                                                        得到的use_class变量称为类的具体对象
+                                                    第一行后的use_class.i用于调用类的属性，也叫类变量
+                                                    第二行的use_class.f()用于调用类的方法
+                                                    在类中定义f()方法时带了一个self参数
+                                                    在类中定义方法的要求：
+                                                            1：在类中定义方法时，第一个参数必须是self。
+                                                                除第一个参数外，类的方法和普通函数没有什么区别，
+                                                                可以使用默认参数，可变参数，关键字参数等
+                                                    在类中调用方法要求：
+                                                            在类中定义方法时，在实例变量上直接调用即可，
+                                                                除了self不用传递，其他参数正常传入
+                                                    类对象支持两种操作：
+                                                            属性引用和实例化。属性引用的标准语法如下：
+                                                                obj.name
+                                                            语法中obj代表类对象，name代表属性
+                                                    个人例子：
+                                                            class MyClass(object):
+                                                                i="base"
+                                                                def f(self):
+                                                                    def f1(arge1):
+                                                                        if self(arge1) == 1:
+                                                                            print("Login Ok")
+                                                                        else:
+                                                                            print("Login Error")
+                                                                    return f1
+                                                            use_class1 = MyClass
+                                                            @use_class1.f
+                                                            def f2(arg2):
+                                                                if arg2 == "joey":
+                                                                    return 1
+                                                                else:
+                                                                    return 0
+                                                            def f3(f311,f322):
+                                                                f333=input("Please Input Your Account:   ")
+                                                                if f311 == 'base':
+                                                                    f322(f333)
+                                                                else:
+                                                                    print("Not Base User")
+                                                            f3(use_class1.i,f2)
+                                    ###深入类###
+                                            ###类的构造方法###
+                                                    class Myclass(object):
+                                                        i=123
+                                                        def __init__(self,name):
+                                                            self.name=name
+                                                        def f(self):
+                                                            return 'hello,'self.name
+                                                    use_class = Myclass()
+                                                    print('调用类的属性:',use_class.i)
+                                                    print('调用类的方法:',use_class.f())
+                                            从上可以看出，实例化MyClass类时调用了__init_()方法。
+                                            在Python中，__init__()方法是一个特殊的方法，在对象实例化的时候会被调用
+                                                __init__()的意思是初始化，是initialization的简写。
+                                                这个方法的书写方式是：先输入两个下划线，后面紧接着init，再接着两个下划线，
+                                                这个方法也叫构造方法。在定义类时，若不显示的定义一个__init__()方法，
+                                                则程序默认调用一个无参的__init__方法。如以下代码效果一样
+                                                例子1：
+                                                    class DefaultInit(object):
+                                                        def __init__(self):
+                                                            print('类的实例化时执行我，我是__init__方法')
+                                                        def show(self):
+                                                            print('我是类中定义的方法，需要通过实例化对象调用')
+                                                    test=DefaultInit()
+                                                    print('类实例化结束')
+                                                    test.show
+
+                                                例子2：
+                                                    class DefaultInit(object):
+                                                        def show(self):
+                                                            print('我是类中定义的方法，需要通过实例化对象调用')
+                                                    test=DefaultInit()
+                                                    print('类实例化结束')
+                                                    test.show
+
+                                            在一个类中定义多个构造方法：
+                                                例子3：
+                                                    class DefaultInit(object):
+                                                        def __init__(self):
+                                                            print('我是不带参数的init方法')
+                                                    DefaultInit()
+                                                    print('类实例化结束')
+                                                在只有一个__init__方法时，实例化类没有什么顾虑
+
+                                                例子4：
+                                                    class DefaultInit(object):
+                                                        def __init__(self):
+                                                            print('我是不带参数的init方法')
+                                                        def __init__(self,param):
+                                                            print('我是带一个参数的init方法，参数值为：',param)
+                                                    DefaultInit('hello')
+                                                    print('类实例化结束')
+                                                由执行结果看到，调用的是带一个param参数的构造方法，若把类的实例化语句更改为
+                                                        DefaultInit()
+                                                    或更改为
+                                                        DefaultInit('hello','word')
+                                                由执行结果可以看到，实例化类时只能调用带两个占位参数的构造方法，调用其他构造方法会报错
+
+                                                例子5：
+                                                        class DefaultInit(object):
+                                                            def __init__(self,param):
+                                                                print('我是一个带参数的__init__方法，参数值为：',param)
+                                                            def __init__(self):
+                                                                print('我是不带参数的__init__方法')
+                                                        DefaultInit()
+                                                        print('类实例化结束')
+                                                    由执行结果看到，调用构造方法除了self外，没有其他参数，若把实例化语句更改为
+                                                        DefaultInit('hello')
+                                                    则会报错，因为在此处实例化类时只能调用带一个占位参数的构造方法，调用其他构造方法会报错
+
+                                                从以上五个例子得知：
+                                                        一个类中可以定义多个构造方法，但实例化类时只实例化最后的构造方法，即
+                                                            后面的构造方法会覆盖前面的构造方法，并且需要根据最后一个构造方法
+                                                            的形式进行实例化，建议一个类中只定义一个构造函数
+
+                                    ###类的访问权限###
+                                            在类内部有属性和方法，外部代码可以通过直接调用实例变量的方法操作数据，这样就隐藏了内部的复杂逻辑
+                                                例子1：
+                                                        class Student(object):
+                                                            def __init__(self,name,score):
+                                                                self.name=name
+                                                                self.score=score
+                                                            def info(self):
+                                                                print('学生：%s;分数：%s'%(self.name,self.score))
+                                                        stu=Student('xiaomeng',95)
+                                                        print('修改前分数：',stu.score)
+                                                        stu.info()
+                                                        stu.score=0
+                                                        print('修改后分数：',stu.score)
+                                                        stu.info()
+                                                在类中定义的非构造方法可以调用类中构造方法实例变量的属性，调用方式
+                                                        为self.实例变量属性名，如代码中的self.name和self.score
+                                                        可以在类的外部修改内的属性，如果让内部属性不被外部访问，
+                                                        可以在属性名称前加两个下划线__.
+                                                在Python中，实例的变量名如果以__开头，就会变成私有变量，只有内部可以访问
+                                                例子2：
+                                                        class Student(object):
+                                                            def __init__(self,name,score):
+                                                                self.__name=name
+                                                                self.__score=score
+                                                            def info(self):
+                                                                print('学生：%s;分数：%s'%(self.__name,self.__score))
+                                                        stu=Student('xiaomeng',95)
+                                                        print('修改前分数：',stu._score)
+                                                        stu.info()
+                                                        stu.score=0
+                                                        print('修改后分数：',stu._score)
+                                                        stu.info()
+                                                此时，会报错，无法从外部访问实例变量的属性__score了，这样的作用：
+                                                        确保外部代码不能随意修改对象内部的状态，通过访问限制的保护，代码更安全
+                                                        如果外部代码要获取类中的name和score咋办：？
+                                                            在Python中，可以为类增加get_attrs方法，获取类中的私有变量
+                                                            例如在上面的示例中添加get_score(name的使用方式类同)方法，代码如下：
+                                                        lass Student(object):
+                                                            def __init__(self,name,score):
+                                                                self.__name=name
+                                                                self.__score=score
+                                                            def info(self):
+                                                                print('学生：%s;分数：%s'%(self.__name,self.__score))
+                                                            def get_score(self):
+                                                                return self._score
+                                                        stu=Student('xiaomeng',95)
+                                                        print('修改前分数：',stu._score)
+                                                        stu.info()
+                                                例子3：person的基础属性(init)和附加属性(paoniu)
+                                                        class Person(object):
+                                                        # 这里就是初始化你将要创建的实例的属性
+                                                            def __init__(self,hight,weight,age):
+                                                                self.hight = hight
+                                                                self.weight = weight
+                                                                self.age = age
+
+                                                        # 定义你将要创建的实例所有用的技能
+                                                            def paoniu(self):
+                                                                print('你拥有泡妞的技能')
+                                                例子4：
+                                                        class Student(object):
+                                                            def __init__(self, name, score):
+                                                                self.name = name
+                                                                self.score = score
+
+                                                            def get_grade(self):
+                                                                if self.score >= 90:
+                                                                    return 'A'
+                                                                elif self.score >= 60:
+                                                                    return 'B'
+                                                                else:
+                                                                    return 'C'
+
+                                                例子5：
+                                                        class Student(object):
+                                                            def __init__(self, name, score):
+                                                                self.__name = name
+                                                                self.__score = score
+                                                            def print_score(self):
+                                                                print('%s: %s' % (self.__name, self.__score))
+                                                        bart = Student('Bart Simpson', 59)
+                                                        bart.__name   ###报错
+                                                但是如果外部代码要获取name和score可以给Student类增加get_name和get_score这样的方法：
+                                                        class Student(object):
+                                                            def __init__(self, name, score):
+                                                                self.__name = name
+                                                                self.__score = score
+                                                            def get_name(self):
+                                                                return self.__name
+                                                            def get_score(self):
+                                                                return self.__score
+
+                                                如果又要允许外部代码修改score怎么办？可以再给Student类增加set_score方法：
+                                                        class Student(object):
+                                                        ...
+                                                        def set_score(self, score):
+                                                            self.__score = score
+                                                使用这种方法原因：因为在方法中，可以对参数做检查，避免传入无效的参数：
+                                                        class Student(object):
+                                                            ...
+                                                            def set_score(self, score):
+                                                                if 0 <= score <= 100:
+                                                                    self.__score = score
+                                                                else:
+                                                                    raise ValueError('bad score')
+
+                                                最后注意下面的这种错误写法：
+                                                        >>> bart = Student('Bart Simpson', 59)
+                                                        >>> bart.get_name()
+                                                        'Bart Simpson'
+                                                        >>> bart.__name = 'New Name' # 设置__name变量！
+                                                        >>> bart.__name
+                                                        'New Name'
+                                                        表面上看，外部代码“成功”地设置了__name变量，但实际上这个__name
+                                                        变量和class内部的__name变量不是一个变量！内部的__name变量已经
+                                                        被Python解释器自动改成了_Student__name，而外部代码给bart新增
+                                                        了一个__name变量。不信试试：
+                                                        >>> bart.get_name() # get_name()内部返回self.__name
+                                                        'Bart Simpson'
+                                                ###例子6###
+                                                            class Myclass(object):
+                                                                def __init__(self,name,age):
+                                                                    self.__name=name
+                                                                    self.__age=age
+                                                                def get__age(self):
+                                                                    return self.__age
+                                                                def info(self):
+                                                                    print("my age is",self.__age)
+                                                                def set__age(self,age):
+                                                                    self.__age=age
+                                                            use_class=Myclass('joey',20)
+                                                            use_class.info()
+                                                            use_class.get__age()
+                                                            use_class.set__age(18)
+                                                            use_class.get__age()
+                                                            use_class.info()
+                                    ###继承###
+                                            
+
+
+
+
+
+
 
 
 
